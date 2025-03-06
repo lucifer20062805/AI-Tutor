@@ -4,7 +4,7 @@ import fitz
 import yt_dlp
 import threading
 import os
-from gemini-app import generate_content, search_youtube, extract_text_from_pdf
+from gemini_app import generate_content, search_youtube, extract_text_from_pdf
 
 app = Flask(__name__)
 CORS(app)
