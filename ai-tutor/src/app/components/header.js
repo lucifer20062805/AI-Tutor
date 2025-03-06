@@ -14,11 +14,11 @@ const Header = ({ toggleSidebar }) => {
         <h1 className="bg-gray-900 text-xl font-bold">AI Tutor Pro</h1>
       </div>
 
-      <img
+      {/* <img
         src="https://via.placeholder.com/40"
         alt="User Avatar"
         className="w-10 h-10 rounded-full"
-      />
+      /> */}
     </header>
   );
 };
