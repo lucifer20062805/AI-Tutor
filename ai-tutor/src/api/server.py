@@ -1,60 +1,17 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import google.generativeai as genai
-import fitz  # PyMuPDF
+import fitz
 import yt_dlp
-import threading  # For parallel execution
+import threading
 import os
+from gemini-app import generate_content, search_youtube, extract_text_from_pdf
 
-# Configure Gemini AI
-genai.configure(api_key="AIzaSyCKeI0ntu6btu3Wybvpsjk3lvnInso5LG0")  # Replace with your API key
+genai.configure(api_key="AIzaSyCKeI0ntu6btu3Wybvpsjk3lvnInso5LG0")
 
 app = Flask(__name__)
 CORS(app)
 
-# Function to generate content using Gemini AI
-def generate_content(prompt):
-    try:
-        model = genai.GenerativeModel("gemini-1.5-pro")
-        response = model.generate_content(prompt)
-        return response.text if response.text else "Error: No response from AI."
-    except Exception as e:
-        return f"Error: {str(e)}"
-
-# Function to search YouTube for related videos
-def search_youtube(query, max_results=5):
-    ydl_opts = {
-        "quiet": True,
-        "default_search": f"ytsearch{max_results}",
-        "skip_download": True,
-        "force_generic_extractor": True
-    }
-
-    try:
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            search_results = ydl.extract_info(query, download=False)
-            if "entries" in search_results:
-                return [
-                    {"title": entry["title"], "url": entry["webpage_url"]}
-                    for entry in search_results["entries"]
-                ]
-    except Exception as e:
-        return [{"error": f"Failed to fetch YouTube videos: {str(e)}"}]
-
-    return [{"error": "No videos found."}]
-
-# Function to extract text from a PDF file
-def extract_text_from_pdf(pdf_path):
-    text = ""
-    try:
-        doc = fitz.open(pdf_path)
-        for page in doc:
-            text += page.get_text()
-        return text
-    except Exception as e:
-        return f"Error extracting text: {str(e)}"
-
-# 📌 Route: Upload PDF → Extract Text → Summarize & Generate Quiz
 @app.route("/upload_pdf", methods=["POST"])
 def upload_pdf():
     if "file" not in request.files:
@@ -64,16 +21,13 @@ def upload_pdf():
     if file.filename == "":
         return jsonify({"error": "No selected file"}), 400
 
-    # Save the uploaded PDF temporarily
     pdf_path = "uploaded.pdf"
     file.save(pdf_path)
 
-    # Extract text
     extracted_text = extract_text_from_pdf(pdf_path)
     if not extracted_text:
         return jsonify({"error": "Failed to extract text from PDF"}), 500
 
-    # Remove the temporary file after processing
     os.remove(pdf_path)
 
     summary_result = {}
@@ -87,7 +41,6 @@ def upload_pdf():
         prompt = f"Generate a quiz based on the following content:\n{extracted_text}"
         quiz_result["quiz"] = generate_content(prompt)
 
-    # Run tasks concurrently
     thread1 = threading.Thread(target=fetch_summary)
     thread2 = threading.Thread(target=fetch_quiz)
     thread1.start()
@@ -100,7 +53,6 @@ def upload_pdf():
         "quiz": quiz_result.get("quiz", "")
     })
 
-# 📌 Route: AI-Generated Study Plan + YouTube Recommendations
 @app.route("/study_plan", methods=["POST"])
 def generate_study_plan():
     data = request.get_json()
@@ -121,7 +73,6 @@ def generate_study_plan():
         nonlocal youtube_result
         youtube_result = search_youtube(f"{topic} study guide", max_results=5)
 
-    # Run tasks concurrently
     thread1 = threading.Thread(target=fetch_study_plan)
     thread2 = threading.Thread(target=fetch_youtube)
     thread1.start()
@@ -134,7 +85,6 @@ def generate_study_plan():
         "videos": youtube_result
     })
 
-# 📌 Route: AI-Powered Doubt Solving + YouTube Suggestions
 @app.route("/solve_doubt", methods=["POST"])
 def solve_doubt():
     data = request.get_json()
@@ -154,7 +104,6 @@ def solve_doubt():
         nonlocal youtube_result
         youtube_result = search_youtube(f"Explanation of {question}", max_results=5)
 
-    # Run tasks concurrently
     thread1 = threading.Thread(target=fetch_answer)
     thread2 = threading.Thread(target=fetch_youtube)
     thread1.start()
