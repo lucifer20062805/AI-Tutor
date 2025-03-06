@@ -31,6 +31,13 @@ function App() {
     }
   };
 
+  const handleNewTopic = () => {
+    setTopic("");
+    setSubmitted(false);
+    setCurrentIndex(0);
+    setFlipped(false);
+  };
+
   const nextCard = () => {
     setFlipped(false);
     setTimeout(() => {
@@ -54,19 +61,20 @@ function App() {
             type="text"
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
-            className="p-2 rounded text-black mb-4"
+            className="p-2 rounded text-black bg-white mb-4"
             placeholder="Enter topic..."
           />
           <button onClick={handleSubmit} className="bg-blue-500 px-4 py-2 rounded">Submit</button>
         </div>
       ) : (
         <>
-          <h1 className="text-3xl font-bold mb-6">Flash Cards for {topic}</h1>
+          <h1 className="text-3xl font-bold mb-6">Flash Card App - {topic}</h1>
           <FlashCard data={flashcards[currentIndex]} flipped={flipped} setFlipped={setFlipped} />
           <div className="mt-4 flex gap-4">
             <button onClick={prevCard} className="bg-blue-500 px-4 py-2 rounded">Prev</button>
             <button onClick={nextCard} className="bg-green-500 px-4 py-2 rounded">Next</button>
           </div>
+          <button onClick={handleNewTopic} className="bg-red-500 px-4 py-2 rounded mt-4">New Topic</button>
         </>
       )}
     </div>
