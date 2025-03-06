@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/app/components/ui/button";
 import Sidebar from "@/app/components/Sidebar";
 import Header from "@/app/components/header";
+import { marked } from "marked";
 
 export default function Home() {
   const [query, setQuery] = useState("");
@@ -29,7 +30,7 @@ export default function Home() {
     setSubmitted(true);
     setLoading(true);
     setProgress(0);
-    
+
     const setFolderRes = await fetch("http://127.0.0.1:5000/ollama_solve_any", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -83,22 +84,26 @@ export default function Home() {
                       <p className="mt-2 text-white text-sm">{progress}%</p>
                     </div>
                   ) : (
-                    response
+                    <div
+                      className="p-4 border border-gray-600 rounded-lg bg-gray-900 text-white text-lg"
+                      dangerouslySetInnerHTML={{ __html: marked(response) }}
+                    />
+
                   )}
                 </div>
               )}
 
               {/* Buttons */}
               {!submitted ? (
-                <Button 
-                  onClick={handleSubmit} 
+                <Button
+                  onClick={handleSubmit}
                   className="text-lg py-3 px-6 bg-gray-600 hover:bg-gray-700 rounded-lg"
                 >
                   Submit
                 </Button>
               ) : (
-                <Button 
-                  onClick={handleEdit} 
+                <Button
+                  onClick={handleEdit}
                   className="text-lg py-3 px-6 bg-gray-700 hover:bg-gray-600 rounded-lg"
                 >
                   Ask Another
