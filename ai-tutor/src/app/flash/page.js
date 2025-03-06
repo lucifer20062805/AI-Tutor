@@ -91,8 +91,8 @@ function App() {
         <Header onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
         <div className="flex-1 flex flex-col items-center justify-center min-h-screen  bg-gradient-to-br from-gray-800 to-gray-900 text-white p-6">
           {!submitted ? (
-            <div className="flex flex-col items-center bg-gray-900 w-100 h-60 content-center justify-center rounded-lg">
-              <h1 className="text-3xl font-bold mb-4">Enter a Topic</h1>
+            <div className="flex flex-col items-center bg-gray-900 w-130 h-80 content-center justify-center rounded-lg">
+              <h1 className="text-3xl font-bold mb-4">Enter a Flash Topic</h1>
               <input
                 type="text"
                 value={topic}
