@@ -1,65 +1,44 @@
 "use client";
 
 import React, { useState } from "react";
+import FlashCard from "./Flash";
 
-const subjects = ["Math", "Physics", "Chemistry", "Biology", "History"];
+const flashcards = [
+  { question: "What is React?", answer: "A JavaScript library for building user interfaces." },
+  { question: "What is JSX?", answer: "JSX is a syntax extension for JavaScript that looks similar to XML or HTML." },
+  { question: "What is state in React?", answer: "State is a built-in object that stores data and controls component behavior." },
+];
 
-const SubjectSelection = ({ onSelect }) => (
-  <div className="bg-gray-900 min-h-screen flex flex-col justify-center items-center text-white p-4">
-    <h1 className="text-3xl font-bold mb-4">Select a Subject</h1>
-    <select
-      className="p-3 bg-gray-800 text-white rounded"
-      onChange={(e) => onSelect(e.target.value)}
-    >
-      <option value="">-- Choose Subject --</option>
-      {subjects.map((subject, index) => (
-        <option key={index} value={subject}>{subject}</option>
-      ))}
-    </select>
-  </div>
-);
+function App() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [flipped, setFlipped] = useState(false);
 
-const chapters = {
-  Math: [
-    { title: "Algebra", description: "Equations and expressions", action: "View" },
-    { title: "Geometry", description: "Shapes and angles", action: "Explore" }
-  ],
-  Physics: [
-    { title: "Newton's Laws", description: "Motion and forces", action: "Discover" }
-  ],
-  Chemistry: [
-    { title: "Chemical Reactions", description: "Balancing equations", action: "Study" }
-  ]
-};
+  const nextCard = () => {
+    setFlipped(false);
+    setTimeout(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % flashcards.length);
+    }, 300);
+  };
 
-const ChapterPage = ({ subject, onBack }) => (
-  <div className="bg-gray-900 min-h-screen text-white p-4">
-    <button onClick={onBack} className="bg-blue-500 px-4 py-2 rounded mb-4">Back</button>
-    <h1 className="text-3xl font-bold mb-4">{subject}</h1>
-    <div className="grid grid-cols-3 gap-4">
-      {chapters[subject]?.map((chapter, index) => (
-        <div key={index} className="bg-gray-800 p-4 rounded-xl">
-          <h3 className="font-bold">{chapter.title}</h3>
-          <p className="text-sm">{chapter.description}</p>
-          <button className="mt-2 bg-blue-500 px-4 py-2 rounded">{chapter.action}</button>
-        </div>
-      ))}
-    </div>
-  </div>
-);
-
-const App = () => {
-  const [selectedSubject, setSelectedSubject] = useState(null);
+  const prevCard = () => {
+    setFlipped(false);
+    setTimeout(() => {
+      setCurrentIndex((prevIndex) => (prevIndex - 1 + flashcards.length) % flashcards.length);
+    }, 300);
+  };
 
   return (
-    <div>
-      {selectedSubject ? (
-        <ChapterPage subject={selectedSubject} onBack={() => setSelectedSubject(null)} />
-      ) : (
-        <SubjectSelection onSelect={setSelectedSubject} />
-      )}
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
+      <h1 className="text-3xl font-bold mb-6">Flash Card App</h1>
+      <div className="relative w-96 h-56 perspective-1000">
+        <FlashCard data={flashcards[currentIndex]} flipped={flipped} setFlipped={setFlipped} />
+      </div>
+      <div className="mt-4 flex gap-4">
+        <button onClick={prevCard} className="bg-blue-500 px-4 py-2 rounded">Prev</button>
+        <button onClick={nextCard} className="bg-green-500 px-4 py-2 rounded">Next</button>
+      </div>
     </div>
   );
-};
+}
 
 export default App;
