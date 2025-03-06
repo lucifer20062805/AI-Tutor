@@ -30,25 +30,41 @@ export default function QuizGenerator() {
     setSelectedAnswers({});
     setTimeLeft(600);
     setQuizCompleted(false);
-    
-    setTimeout(() => {
-      const generatedQuiz = [
-        {
-          question: `What is a key fact about ${topic}?`,
-          options: ["Fact 1", "Fact 2", "Fact 3", "Fact 4"],
-          answer: "Fact 1",
-        },
-        {
-          question: `Who is related to ${topic}?`,
-          options: ["Person A", "Person B", "Person C", "Person D"],
-          answer: "Person A",
-        },
-      ];
+  
+    try {
+      const setFolderRes = await fetch("http://127.0.0.1:5000/ollama_solve", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: topic }),
+      });
+  
+      if (!setFolderRes.ok) {
+        throw new Error(`Error setting folder: ${setFolderRes.statusText}`);
+      }
+  
+      const result = await setFolderRes.json();
+  
+      // Parse the result into a quiz format
+      const generatedQuiz = result.result.map((item) => {
+        const [questionPart, answerPart] = item.split("Answer: ");
+        const [question, ...options] = questionPart.split("\n").filter(Boolean);
+        const formattedOptions = options.map((opt) => opt); // Remove the 'A) ', 'B) ', etc.
+        const correctAnswer = answerPart.trim();
+  
+        return {
+          question: question.trim(),
+          options: formattedOptions,
+          answer: formattedOptions[["A", "B", "C", "D"].indexOf(correctAnswer)],
+        };
+      });
+  
       setQuizData(generatedQuiz);
+    } catch (error) {
+      console.error("Failed to generate quiz:", error);
+    } finally {
       setLoading(false);
-    }, 1000);
-  };
-
+    }
+  };  
   const handleSelect = (index, option) => {
     setSelectedAnswers({ ...selectedAnswers, [index]: option });
   };

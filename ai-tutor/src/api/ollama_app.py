@@ -1,35 +1,23 @@
 import subprocess
+import re
+import json
+
 def generate_text(prompt):
-    command = f'ollama run llama3.2:1b "{prompt}"'
+    command = f'ollama run llama3.2:1b "Generate a quiz on the topic "{prompt}" and the answers along with them in the format : [Question, option] Answer for easier formatting"'
     result = subprocess.run(
         command,
         shell=True,
         text=True,
         encoding='utf-8',
-        stdin=subprocess.DEVNULL,  # Prevents console interaction
-        stdout=subprocess.PIPE,     # Captures standard output
-        stderr=subprocess.PIPE      # Captures standard error
+        stdin=subprocess.DEVNULL,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
     )
     
+    raw_output = result.stdout
+    split_text = re.split(r'\d+\.\s', raw_output)[1:]
     if result.returncode != 0:
         print(f"Error: {result.stderr}")
         return f"Error: {result.stderr}"
     
-    return result.stdout
-
-
-if __name__ == "__main__":
-    topic = input("Enter the topic: ").strip()
-    difficulty = input("Enter difficulty level (Easy, Medium, Hard): ").strip()
-    try:
-        num_questions = int(input("Enter the number of questions: ").strip())
-        if num_questions <= 0:
-            raise ValueError
-    except ValueError:
-        print("Please enter a valid number of questions.")
-        exit()
-    
-    for i in range(num_questions):
-        prompt = f"Generate a {difficulty} level question about {topic}, along with the correct answer."
-        question = generate_text(prompt)
-        print(question)
+    return split_text

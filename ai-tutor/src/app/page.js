@@ -10,12 +10,12 @@ export default function Home() {
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = async () => {
+    setSubmitted(true);
     const setFolderRes = await fetch("http://127.0.0.1:5000/ollama_solve", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ prompt: query }),
     });
-    setSubmitted(true);
 
     if (!setFolderRes.ok) {
         throw new Error(`Error setting folder: ${setFolderRes.statusText}`);
@@ -71,9 +71,6 @@ export default function Home() {
                 Ask Another
               </Button>
             )}
-          </div>
-          <div>
-            <p>{response}</p>
           </div>
         </div>
       </div>
