@@ -1,9 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Input } from "@/app/components/ui/input";
 import { Button } from "@/app/components/ui/button";
-import { Card, CardContent } from "@/app/components/ui/card";
 import Sidebar from "@/app/components/Sidebar";
 
 export default function Home() {
@@ -17,33 +15,29 @@ export default function Home() {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <div className="flex bg-black flex-1 justify-center items-center">
-        <Card className="w-full max-w-3xl min-h-[450px] p-12 shadow-xl flex flex-col bg-black text-black">
-          <CardContent className="flex flex-col justify-between h-full">
-            {/* Title */}
-            <h2 className="text-2xl font-semibold text-center mb-30 text-black">
-              {/* AI Tutor - Ask Anything */}
-              Ask Anything
-            </h2>
+      <div className="flex flex-1 justify-center items-center bg-black">
+        <div className="w-full max-w-3xl min-h-[300px] p-12 flex flex-col text-white">
+          {/* Title */}
+          <h2 className="text-2xl font-semibold text-center mb-6 text-white">
+            Ask Anything
+          </h2>
 
-            {/* Input & Button Section */}
-            <div className="flex flex-col mt-auto">
-              <Input
-                type="text"
-                placeholder="Ask me anything..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                className="!h-[200px] text-xl p-4 border border-gray-500 rounded-lg text-black placeholder-black bg-white"
-              />
-              <Button 
-                onClick={handleSubmit} 
-                className="text-lg py-3 px-6 mt-6 bg-blue-600 hover:bg-blue-700"
-              >
-                Submit
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+          {/* Input & Button Section */}
+          <div className="flex flex-col gap-6 mt-auto">
+            <textarea
+              placeholder="Ask me anything..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="h-[180px] text-xl p-4 border border-gray-600 rounded-lg bg-black text-white placeholder-white resize-none focus:ring-2 focus:ring-blue-500"
+            />
+            <Button 
+              onClick={handleSubmit} 
+              className="text-lg py-3 px-6 bg-blue-600 hover:bg-blue-700 rounded-lg"
+            >
+              Submit
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );
