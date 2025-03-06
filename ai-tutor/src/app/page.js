@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { Input } from "@/app/components/ui/input";
 import { Button } from "@/app/components/ui/button";
+import { Card, CardContent } from "@/app/components/ui/card";
 import Sidebar from "@/app/components/Sidebar";
 
 export default function Home() {
