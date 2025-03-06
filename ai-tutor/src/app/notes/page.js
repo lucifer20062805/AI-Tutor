@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
+import Sidebar from "@/app/components/Sidebar";
+import Header from "@/app/components/header";
 
 const subjects = ["Math", "Physics", "Chemistry", "Biology", "History"];
 
 const SubjectSelection = ({ onSelect }) => (
-  <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-gray-800 to-gray-900 text-white p-6">
+  <div className="flex flex-1 flex-col justify-center items-center bg-gradient-to-br from-gray-800 to-gray-900 text-white p-6">
     <h1 className="text-4xl font-bold mb-6 tracking-wide">Choose a Subject</h1>
     <div className="relative w-72">
       <select
@@ -17,9 +19,6 @@ const SubjectSelection = ({ onSelect }) => (
           <option key={index} value={subject}>{subject}</option>
         ))}
       </select>
-      <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
-        ⏬
-      </div>
     </div>
   </div>
 );
@@ -38,19 +37,14 @@ const chapters = {
 };
 
 const ChapterPage = ({ subject, onBack }) => (
-  <div className="relative min-h-screen bg-gradient-to-br from-gray-900 to-black text-white p-6">
-    {/* Back Button at Top-Right */}
+  <div className="relative flex flex-1 flex-col bg-gradient-to-br from-gray-900 to-black text-white p-6">
     <button
       onClick={onBack}
       className="absolute top-4 right-6 bg-red-500 px-5 py-2 rounded-full text-white font-semibold shadow-lg hover:bg-red-600 transition-all"
     >
       ⬅ Back
     </button>
-
-    {/* Page Title */}
     <h1 className="text-5xl font-bold mt-6 mb-6 text-center">{subject} Chapters</h1>
-
-    {/* Chapter Cards */}
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       {chapters[subject]?.map((chapter, index) => (
         <div
@@ -70,14 +64,19 @@ const ChapterPage = ({ subject, onBack }) => (
 
 const App = () => {
   const [selectedSubject, setSelectedSubject] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   return (
-    <div>
-      {selectedSubject ? (
-        <ChapterPage subject={selectedSubject} onBack={() => setSelectedSubject(null)} />
-      ) : (
-        <SubjectSelection onSelect={setSelectedSubject} />
-      )}
+    <div className="flex min-h-screen">
+      <Sidebar isOpen={isSidebarOpen} />
+      <div className="flex flex-1 flex-col">
+        <Header onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
+        {selectedSubject ? (
+          <ChapterPage subject={selectedSubject} onBack={() => setSelectedSubject(null)} />
+        ) : (
+          <SubjectSelection onSelect={setSelectedSubject} />
+        )}
+      </div>
     </div>
   );
 };

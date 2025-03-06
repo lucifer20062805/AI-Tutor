@@ -39,7 +39,7 @@ export default function Home() {
       <Sidebar isOpen={isSidebarOpen} />
       <div className="flex flex-1 flex-col">
         <Header onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
-        <div className="flex flex-1 justify-center items-center bg-black p-6 transition-all duration-300">
+        <div className="flex flex-1 justify-center items-center bg-gradient-to-br from-gray-800 to-gray-900 p-6 transition-all duration-300">
           <div className="w-full max-w-3xl min-h-[300px] p-12 flex flex-col text-white">
             {/* Title */}
             <h2 className="text-2xl font-semibold text-center mb-6 text-white">
