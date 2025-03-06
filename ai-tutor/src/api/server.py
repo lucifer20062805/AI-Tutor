@@ -1,13 +1,10 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import google.generativeai as genai
 import fitz
 import yt_dlp
 import threading
 import os
 from gemini-app import generate_content, search_youtube, extract_text_from_pdf
-
-genai.configure(api_key="AIzaSyCKeI0ntu6btu3Wybvpsjk3lvnInso5LG0")
 
 app = Flask(__name__)
 CORS(app)
