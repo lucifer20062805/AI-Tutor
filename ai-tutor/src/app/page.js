@@ -11,7 +11,7 @@ export default function Home() {
 
   const handleSubmit = async () => {
     setSubmitted(true);
-    const setFolderRes = await fetch("http://127.0.0.1:5000/ollama_solve", {
+    const setFolderRes = await fetch("http://127.0.0.1:5000/ollama_solve_any", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ prompt: query }),
@@ -20,6 +20,8 @@ export default function Home() {
     if (!setFolderRes.ok) {
         throw new Error(`Error setting folder: ${setFolderRes.statusText}`);
     }
+
+    setQuery(""); // Clear the input field
 
     const result = await setFolderRes.json();
     setResponse(result.result);
