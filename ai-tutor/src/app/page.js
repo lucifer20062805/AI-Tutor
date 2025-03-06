@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Input } from "@/app/components/ui/input";
-import { Button } from "@/app/components/ui/button";
-import { Card, CardContent } from "@/app/components/ui/card";
-import Sidebar from "@/app/components/Sidebar";
+import { Input } from "@/components/Input";
+import { Button } from "@/components/Button";
+import { Card, CardContent } from "@/components/Card";
+import Dashboard from "@/components/Dashboard";
+import SearchResults from "@/components/SearchResults";
+import Sidebar from "@/components/Sidebar";
 
 export default function Home() {
   const [query, setQuery] = useState("");
