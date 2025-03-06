@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Sidebar from "@/app/components/Sidebar";
 import Header from "@/app/components/header";
+import { Menu } from "lucide-react";
 
 function FlashCard({ data, flipped, setFlipped }) {
   return (
@@ -20,10 +21,11 @@ function App() {
   const [submitted, setSubmitted] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const flashcards = [
-    { question: `What is ${topic}?`, answer: `${topic} is a topic you chose.` },
-    { question: `Why is ${topic} important?`, answer: `Understanding ${topic} helps in learning more about it.` },
+    { question: `What is ${topic}?`, answer: `${topic} is a something we do.` },
+    { question: `Why is ${topic} important?`, answer: `Understanding ${topic} helps in acheiving and learning more about it.` },
     { question: `How can you use ${topic}?`, answer: `${topic} can be applied in various real-world scenarios.` },
   ];
 
@@ -55,11 +57,11 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <div className="flex flex-1">
-        <Sidebar />
-        <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 text-white p-6">
+    <div className="flex min-h-screen">
+      <Sidebar isOpen={sidebarOpen} />
+      <div className="flex flex-1 flex-col">
+        <Header onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+        <div className="flex flex-1 flex-col items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 text-white p-6">
           {!submitted ? (
             <div className="flex flex-col items-center bg-gray-900 w-130 h-80 content-center justify-center rounded-lg">
               <h1 className="text-3xl font-bold mb-6">Enter a Flashcard Topic</h1>
@@ -74,7 +76,8 @@ function App() {
             </div>
           ) : (
             <>
-              <h1 className="text-3xl font-bold mb-6">Flash Card App - {topic}</h1>
+              {/* <h1 className="text-3xl font-bold mb-6">Flash Card Generator - {topic}</h1> */}
+              <h1 className="text-3xl font-bold mb-6">Flash Card Generator</h1>
               <FlashCard data={flashcards[currentIndex]} flipped={flipped} setFlipped={setFlipped} />
               <div className="mt-4 flex gap-4">
                 <button onClick={prevCard} className="bg-blue-500 px-4 py-2 rounded">Prev</button>

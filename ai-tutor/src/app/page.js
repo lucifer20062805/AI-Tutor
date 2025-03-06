@@ -10,9 +10,11 @@ export default function Home() {
   const [response, setResponse] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
     setSubmitted(true);
+    setLoading(true);
     const setFolderRes = await fetch("http://127.0.0.1:5000/ollama_solve_any", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -27,11 +29,13 @@ export default function Home() {
 
     const result = await setFolderRes.json();
     setResponse(result.result);
+    setLoading(false);
   };
 
   const handleEdit = () => {
     setSubmitted(false);
     setQuery(""); // Clear the input field
+    setResponse("");
   };
 
   return (
@@ -57,7 +61,7 @@ export default function Home() {
                 />
               ) : (
                 <div className="p-4 border border-gray-600 rounded-lg bg-gray-900 text-white text-lg">
-                  {response}
+                  {loading ? <span className="animate-pulse">Generating response...</span> : response}
                 </div>
               )}
 
