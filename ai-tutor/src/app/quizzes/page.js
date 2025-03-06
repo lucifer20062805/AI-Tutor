@@ -34,11 +34,14 @@ export default function QuizGenerator() {
     setQuizCompleted(false);
 
     try {
+      console.log("🔹 Sending API request...");
+    
       const setFolderRes = await fetch("http://127.0.0.1:5000/ollama_solve", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt: topic }),
       });
+<<<<<<< Updated upstream
 
       if (!setFolderRes.ok) {
         throw new Error(`Error setting folder: ${setFolderRes.statusText}`);
@@ -51,21 +54,62 @@ export default function QuizGenerator() {
         const formattedOptions = options.map((opt) => opt);
         const correctAnswer = answerPart.trim();
 
+=======
+    
+      console.log("🔹 API Response received:", setFolderRes);
+    
+      if (!setFolderRes.ok) {
+        throw new Error(`Error setting folder: ${setFolderRes.statusText}`);
+      }
+    
+      const result = await setFolderRes.json();
+      console.log("🔹 Parsed JSON response:", result);
+    
+      if (!Array.isArray(result.result)) {
+        throw new Error("Invalid API response format: expected an array");
+      }
+    
+      console.log("🔹 Processing quiz data...");
+      
+      const generatedQuiz = result.result.map((item) => {
+        const match = item.match(/^(.*?)\nA\)(.*?)\nB\)(.*?)\nC\)(.*?)\nD\)(.*?)\n\nAnswer:\s*([A-D])\)\s*(.*)/s);
+      
+        if (!match) {
+          console.error("❌ Failed to parse item:", item);
+          return null;
+        }
+      
+>>>>>>> Stashed changes
         return {
-          question: question.trim(),
-          options: formattedOptions,
-          answer: formattedOptions[["A", "B", "C", "D"].indexOf(correctAnswer)],
+          question: match[1].trim().replace("**", ""),  // Extracting question
+          options: [match[2].trim(), match[3].trim(), match[4].trim(), match[5].trim()],  // Extracting options
+          answer: match[2 + ["A", "B", "C", "D"].indexOf(match[6])].trim(),  // Finding correct answer from options
         };
+<<<<<<< Updated upstream
       });
 
+=======
+      }).filter(Boolean);      
+    
+      console.log("✅ Generated Quiz Data:", generatedQuiz);
+    
+>>>>>>> Stashed changes
       setQuizData(generatedQuiz);
+      console.log("✅ setQuizData called!");
+    
     } catch (error) {
-      console.error("Failed to generate quiz:", error);
+      console.error("❌ Error occurred:", error);
     } finally {
       setLoading(false);
+      console.log("🔹 Loading state set to false");
     }
+<<<<<<< Updated upstream
   };
 
+=======
+    
+  };  
+>>>>>>> Stashed changes
   const handleSelect = (index, option) => {
     setSelectedAnswers({ ...selectedAnswers, [index]: option });
   };
@@ -73,7 +117,7 @@ export default function QuizGenerator() {
   const handleSubmit = () => {
     let correctCount = 0;
     quizData.forEach((q, i) => {
-      if (selectedAnswers[i] === q.answer) correctCount++;
+      if (selectedAnswers[i] === q.answer) {console.log(q.answer);correctCount++};
     });
     setScore(correctCount);
     setQuizCompleted(true);
