@@ -11,7 +11,7 @@ const Header = ({ toggleSidebar }) => {
       </button> */}
       <h1 className="bg-gray-900 text-gray-900 font-bold">Dashboard</h1>
       <div className="">
-        <h1 className="bg-gray-900 text-xl font-bold">AI Tutor</h1>
+        <h1 className="bg-gray-900 text-xl font-bold">AI Tutor Pro</h1>
       </div>
 
       <img
