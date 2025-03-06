@@ -7,9 +7,9 @@ const menuItems = [
   { name: "Home", href: "/", icon: Home },
   { name: "Quiz", href: "/quizzes", icon: FileText},
   { name: "Notes", href: "/notes", icon: Folder },
-  { name: "About Us", href: "/AboutUs", icon: Calendar },
-  { name: "Documents", href: "/documents", icon: Users  },
+  { name: "Flashcard", href: "/flash", icon: Calendar },
   { name: "Reports", href: "/reports", icon: PieChart },
+  { name: "About Us", href: "/AboutUs", icon:Users   },
 ];
 
 const teams = [
