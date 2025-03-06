@@ -10,6 +10,7 @@ export default function Sidebar() {
         <Link href="/quizzes" className="p-2 bg-gray-800 rounded-md">Quizzes</Link>
         <Link href="/videos" className="p-2 bg-gray-800 rounded-md">Videos</Link>
         <Link href="/notes" className="p-2 bg-gray-800 rounded-md">Notes</Link>
+        <Link href="/AboutUs" className="p-2 bg-gray-800 rounded-md">AboutUs</Link>
       </nav>
     </div>
   );
