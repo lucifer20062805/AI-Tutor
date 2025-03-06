@@ -25,6 +25,11 @@ export default function Home() {
     setResponse(result.result);
   };
 
+  const handleEdit = () => {
+    setSubmitted(false);
+    setQuery(""); // Clear the input field
+  };
+
   return (
     <div className="flex min-h-screen">
       <Sidebar />
