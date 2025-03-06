@@ -10,22 +10,22 @@ const teamMembers = [
   {
     name: "Arya",
     role: "AI Engineer, CTO, CEO, DIRECTOR,FOUNDER",
-    image: "/images/arya.jpg",
+    image: "/stalin.jpg",
   },
   {
     name: "Rachit",
     role: "peon",
-    image: "/images/jane.jpg",
+    image: "/rachit.png",
   },
   {
     name: "RAJAT",
     role: "Janitor",
-    image: "/images/alex.jpg",
+    image: "/rajat.jpg",
   },
   {
     name: "Vedang",
     role: "Security guard",
-    image: "/images/emily.jpg",
+    image: "/vedang.jpg",
   },
 ];
 
@@ -42,7 +42,7 @@ export default function AboutUs() {
             <h1 className="text-4xl font-bold mb-4">About Us</h1>
             <p className="text-lg text-gray-300 mb-6">
               Welcome to <span className="font-bold text-white">AI Tutor</span>, your AI-powered learning companion.
-              We are a passionate🍆💦team dedicated to making education interactive and engaging🍆💦.
+              We are a passionate team dedicated to making education interactive and engaging.
             </p>
 
             {/* Team Section */}
@@ -55,7 +55,7 @@ export default function AboutUs() {
                     alt={member.name}
                     width={120}
                     height={120}
-                    className="rounded-full border-4 border-gray-700"
+                    className="rounded-full border-4 border-gray-700 min-w-[120px] min-h-[120px] object-cover"
                   />
                   <h3 className="text-lg font-semibold mt-3">{member.name}</h3>
                   <p className="text-sm text-gray-400">{member.role}</p>

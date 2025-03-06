@@ -107,13 +107,13 @@ function App() {
               <h1 className="text-2xl text-red-500">❌ No flashcards generated. Try again.</h1>
             )
           ) : (
-            <div className="flex flex-col items-center bg-gray-900 w-100 h-60 content-center justify-center rounded-lg">
-              <h1 className="text-3xl font-bold mb-4">Enter a Topic</h1>
+            <div className="flex flex-col items-center bg-gray-900 w-130 h-80 content-center justify-center rounded-lg">
+              <h1 className="text-3xl font-bold mb-4">Enter a Flash Topic</h1>
               <input
                 type="text"
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
-                className="p-2 rounded text-black bg-white mb-4 w-xs"
+                className="p-2 rounded text-white bg-gray-900 border border-gray-300 w-100 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
                 placeholder="Enter topic..."
               />
               <button onClick={handleSubmit} className="bg-blue-500 px-4 py-2 rounded">
