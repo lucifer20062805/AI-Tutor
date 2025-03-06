@@ -31,17 +31,17 @@ function App() {
     setFlashcards([]);
     setCurrentIndex(0);
     setFlipped(false);
-  
+
     try {
       const response = await fetch("http://127.0.0.1:5000/ollama_solve_flashcards", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt: topic }),
       });
-  
+
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Failed to generate flashcards");
-  
+
       // Extracting Q&A pairs using regex
       const flashcardList = [];
       const flashcardRegex = /\d+\.\s*(.*?)\s*Answer:\s*(.*)/g;
@@ -90,7 +90,23 @@ function App() {
       <div className="flex flex-1 flex-col">
         <Header onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
         <div className="flex-1 flex flex-col items-center justify-center min-h-screen  bg-gradient-to-br from-gray-800 to-gray-900 text-white p-6">
-          {!submitted ? (
+          {submitted ? (
+            loading ? (
+              <h1 className="text-2xl text-white">⏳ Generating flashcards...</h1>
+            ) : flashcards.length > 0 ? (
+              <>
+                <h1 className="text-3xl font-bold mb-6">Flash Card App - {topic}</h1>
+                <FlashCard data={flashcards[currentIndex]} flipped={flipped} setFlipped={setFlipped} />
+                <div className="mt-4 flex gap-4">
+                  <button onClick={prevCard} className="bg-blue-500 px-4 py-2 rounded">Prev</button>
+                  <button onClick={nextCard} className="bg-green-500 px-4 py-2 rounded">Next</button>
+                </div>
+                <button onClick={handleNewTopic} className="bg-red-500 px-4 py-2 rounded mt-4">New Topic</button>
+              </>
+            ) : (
+              <h1 className="text-2xl text-red-500">❌ No flashcards generated. Try again.</h1>
+            )
+          ) : (
             <div className="flex flex-col items-center bg-gray-900 w-100 h-60 content-center justify-center rounded-lg">
               <h1 className="text-3xl font-bold mb-4">Enter a Topic</h1>
               <input
@@ -104,21 +120,8 @@ function App() {
                 {loading ? "⏳ Generating..." : "Submit"}
               </button>
             </div>
-          ) : (
-            flashcards.length > 0 ? (
-              <>
-                <h1 className="text-3xl font-bold mb-6">Flash Card App - {topic}</h1>
-                <FlashCard data={flashcards[currentIndex]} flipped={flipped} setFlipped={setFlipped} />
-                <div className="mt-4 flex gap-4">
-                  <button onClick={prevCard} className="bg-blue-500 px-4 py-2 rounded">Prev</button>
-                  <button onClick={nextCard} className="bg-green-500 px-4 py-2 rounded">Next</button>
-                </div>
-                <button onClick={handleNewTopic} className="bg-red-500 px-4 py-2 rounded mt-4">New Topic</button>
-              </>
-            ) : (
-              <h1 className="text-2xl text-red-500">❌ No flashcards generated. Try again.</h1>
-            )
           )}
+
         </div>
       </div>
     </div>

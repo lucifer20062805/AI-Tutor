@@ -3,7 +3,7 @@ import re
 import json
 
 def generate_text_flashcard(prompt):
-    command = f'ollama run llama3.2 "Generate 10 flash cards ( small question, one theory answer format, no options ) on the topic "{prompt}" in the format [Question] : Answer"'
+    command = f'ollama run llama3.2 "Generate 10 flash cards ( small question, one theory answer format, no options ) on the topic "{prompt}" in the format Question : Answer"'
     result = subprocess.run(
         command,
         shell=True,
