@@ -42,7 +42,7 @@ export default function AboutUs() {
             <h1 className="text-4xl font-bold mb-4">About Us</h1>
             <p className="text-lg text-gray-300 mb-6">
               Welcome to <span className="font-bold text-white">AI Tutor</span>, your AI-powered learning companion.
-              We are a passionate team dedicated to making education interactive and engaging.
+              We are a passionate🍆💦team dedicated to making education interactive and engaging🍆💦.
             </p>
 
             {/* Team Section */}

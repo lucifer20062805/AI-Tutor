@@ -30,26 +30,15 @@ export default function Home() {
     setLoading(true);
     setProgress(0);
     
-    try {
-      const setFolderRes = await fetch("http://127.0.0.1:5000/ollama_solve_any", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: query }),
-      });
+    const setFolderRes = await fetch("http://127.0.0.1:5000/ollama_solve_any", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt: query }),
+    });
 
-      if (!setFolderRes.ok) {
-        throw new Error(`Error setting folder: ${setFolderRes.statusText}`);
-      }
-
-      setQuery(""); // Clear the input field
-
-      const result = await setFolderRes.json();
-      setResponse(result.result);
-    } catch (error) {
-      setResponse("Error fetching response.");
-    } finally {
-      setLoading(false);
-    }
+    const result = await setFolderRes.json();
+    setResponse(result.result);
+    setLoading(false);
   };
 
   const handleEdit = () => {
