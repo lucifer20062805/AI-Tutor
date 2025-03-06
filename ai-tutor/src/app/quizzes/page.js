@@ -43,6 +43,36 @@ export default function QuizGenerator() {
           options: ["Person A", "Person B", "Person C", "Person D"],
           answer: "Person A",
         },
+        {
+          question: `Who is related to ${topic}?`,
+          options: ["Person A", "Person B", "Person C", "Person D"],
+          answer: "Person A",
+        },
+        {
+          question: `Who is related to ${topic}?`,
+          options: ["Person A", "Person B", "Person C", "Person D"],
+          answer: "Person A",
+        },
+        {
+          question: `Who is related to ${topic}?`,
+          options: ["Person A", "Person B", "Person C", "Person D"],
+          answer: "Person A",
+        },
+        {
+          question: `Who is related to ${topic}?`,
+          options: ["Person A", "Person B", "Person C", "Person D"],
+          answer: "Person A",
+        },
+        {
+          question: `Who is related to ${topic}?`,
+          options: ["Person A", "Person B", "Person C", "Person D"],
+          answer: "Person A",
+        },
+        {
+          question: `Who is related to ${topic}?`,
+          options: ["Person A", "Person B", "Person C", "Person D"],
+          answer: "Person A",
+        },
       ];
       setQuizData(generatedQuiz);
       setLoading(false);
@@ -63,7 +93,7 @@ export default function QuizGenerator() {
   };
 
   return (
-    <div className="min-h-screen h-20 flex flex-col items-center justify-center bg-black text-white p-8">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white p-8">
       <h1 className="text-3xl pb-6 font-bold">🧠 AI Tutor - Quiz Generator</h1>
 
       {!quizData.length && !quizCompleted ? (
