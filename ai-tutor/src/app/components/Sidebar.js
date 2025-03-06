@@ -17,7 +17,7 @@ export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <div className={`h-screen bg-gray-900 text-white p-4 flex flex-col transition-all duration-300 ${isCollapsed ? "w-20" : "w-64"}`}>
+    <div className={`min-h-screen bg-gray-900 text-white p-4 flex flex-col transition-all duration-300 ${isCollapsed ? "w-20" : "w-64"}`}>
       <button onClick={() => setIsCollapsed(!isCollapsed)} className="mb-4 p-2 rounded-lg bg-gray-800 hover:bg-gray-700">
         <Menu className="w-6 h-6" />
       </button>

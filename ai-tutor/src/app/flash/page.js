@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Sidebar from "@/app/components/Sidebar";
+import Header from "@/app/components/header";
 
 function FlashCard({ data, flipped, setFlipped }) {
   return (
@@ -21,6 +22,7 @@ function App() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const handleSubmit = async () => {
     if (!topic.trim()) return;
@@ -50,7 +52,7 @@ function App() {
           answer: match[2].trim(),
         });
       }
-      console.log(flashcardList)
+      console.log(flashcardList);
       if (flashcardList.length === 0) throw new Error("Invalid response format");
       setFlashcards(flashcardList);
     } catch (error) {
@@ -59,7 +61,6 @@ function App() {
     }
     setLoading(false);
   };
-  
 
   const handleNewTopic = () => {
     setTopic("");
@@ -84,38 +85,41 @@ function App() {
   };
 
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1 flex flex-col items-center justify-center min-h-screen bg-black text-white p-6">
-        {!submitted ? (
-          <div className="flex flex-col items-center bg-gray-900 w-100 h-60 content-center justify-center rounded-lg">
-            <h1 className="text-3xl font-bold mb-4">Enter a Topic</h1>
-            <input
-              type="text"
-              value={topic}
-              onChange={(e) => setTopic(e.target.value)}
-              className="p-2 rounded text-black bg-white mb-4 w-xs"
-              placeholder="Enter topic..."
-            />
-            <button onClick={handleSubmit} className="bg-blue-500 px-4 py-2 rounded">
-              {loading ? "⏳ Generating..." : "Submit"}
-            </button>
-          </div>
-        ) : (
-          flashcards.length > 0 ? (
-            <>
-              <h1 className="text-3xl font-bold mb-6">Flash Card App - {topic}</h1>
-              <FlashCard data={flashcards[currentIndex]} flipped={flipped} setFlipped={setFlipped} />
-              <div className="mt-4 flex gap-4">
-                <button onClick={prevCard} className="bg-blue-500 px-4 py-2 rounded">Prev</button>
-                <button onClick={nextCard} className="bg-green-500 px-4 py-2 rounded">Next</button>
-              </div>
-              <button onClick={handleNewTopic} className="bg-red-500 px-4 py-2 rounded mt-4">New Topic</button>
-            </>
+    <div className="flex min-h-screen">
+      <Sidebar isOpen={isSidebarOpen} />
+      <div className="flex flex-1 flex-col">
+        <Header onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
+        <div className="flex-1 flex flex-col items-center justify-center min-h-screen  bg-gradient-to-br from-gray-800 to-gray-900 text-white p-6">
+          {!submitted ? (
+            <div className="flex flex-col items-center bg-gray-900 w-100 h-60 content-center justify-center rounded-lg">
+              <h1 className="text-3xl font-bold mb-4">Enter a Topic</h1>
+              <input
+                type="text"
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
+                className="p-2 rounded text-black bg-white mb-4 w-xs"
+                placeholder="Enter topic..."
+              />
+              <button onClick={handleSubmit} className="bg-blue-500 px-4 py-2 rounded">
+                {loading ? "⏳ Generating..." : "Submit"}
+              </button>
+            </div>
           ) : (
-            <h1 className="text-2xl text-red-500">❌ No flashcards generated. Try again.</h1>
-          )
-        )}
+            flashcards.length > 0 ? (
+              <>
+                <h1 className="text-3xl font-bold mb-6">Flash Card App - {topic}</h1>
+                <FlashCard data={flashcards[currentIndex]} flipped={flipped} setFlipped={setFlipped} />
+                <div className="mt-4 flex gap-4">
+                  <button onClick={prevCard} className="bg-blue-500 px-4 py-2 rounded">Prev</button>
+                  <button onClick={nextCard} className="bg-green-500 px-4 py-2 rounded">Next</button>
+                </div>
+                <button onClick={handleNewTopic} className="bg-red-500 px-4 py-2 rounded mt-4">New Topic</button>
+              </>
+            ) : (
+              <h1 className="text-2xl text-red-500">❌ No flashcards generated. Try again.</h1>
+            )
+          )}
+        </div>
       </div>
     </div>
   );
