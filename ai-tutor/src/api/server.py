@@ -1,13 +1,15 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import fitz
-import yt_dlp
 import threading
 import os
 from gemini_app import generate_content, search_youtube, extract_text_from_pdf
 
 app = Flask(__name__)
 CORS(app)
+
+@app.route('/')
+def hello():
+    return jsonify({"result":"hello"})
 
 @app.route("/upload_pdf", methods=["POST"])
 def upload_pdf():
@@ -114,4 +116,4 @@ def solve_doubt():
     })
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0", port=5000)
