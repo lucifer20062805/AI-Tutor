@@ -3,9 +3,11 @@ from flask_cors import CORS
 import threading
 import os
 from gemini_app import generate_content, search_youtube, extract_text_from_pdf
+from ollama_app import generate_text
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+
 
 @app.route('/')
 def hello():
@@ -114,6 +116,16 @@ def solve_doubt():
         "answer": answer_result.get("answer", ""),
         "videos": youtube_result
     })
+
+@app.route("/ollama_solve", methods=["POST"])
+def ollama_solve():
+    data = request.get_json()
+    prompt = data.get("prompt", "")
+
+    if not prompt:
+        return jsonify({"error": "Please provide a prompt."}), 400
+
+    return jsonify({"result": generate_text(prompt)})
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)

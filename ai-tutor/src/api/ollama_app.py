@@ -1,10 +1,22 @@
 import subprocess
-
-# Function to generate quiz questions using Ollama CLI
 def generate_text(prompt):
     command = f'ollama run llama3.2:1b "{prompt}"'
-    result = subprocess.run(command, shell=True, capture_output=True, text=True, encoding='utf-8')
+    result = subprocess.run(
+        command,
+        shell=True,
+        text=True,
+        encoding='utf-8',
+        stdin=subprocess.DEVNULL,  # Prevents console interaction
+        stdout=subprocess.PIPE,     # Captures standard output
+        stderr=subprocess.PIPE      # Captures standard error
+    )
+    
+    if result.returncode != 0:
+        print(f"Error: {result.stderr}")
+        return f"Error: {result.stderr}"
+    
     return result.stdout
+
 
 if __name__ == "__main__":
     topic = input("Enter the topic: ").strip()

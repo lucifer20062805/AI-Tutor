@@ -1,9 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Input } from "@/app/components/ui/input";
 import { Button } from "@/app/components/ui/button";
-import { Card, CardContent } from "@/app/components/ui/card";
 import Sidebar from "@/app/components/Sidebar";
 
 export default function Home() {
@@ -11,7 +9,18 @@ export default function Home() {
   const [response, setResponse] = useState("");
 
   const handleSubmit = async () => {
-    setResponse(`AI Response for: "${query}"`);
+    const setFolderRes = await fetch("http://127.0.0.1:5000/ollama_solve", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: query }),
+    });
+
+    if (!setFolderRes.ok) {
+        throw new Error(`Error setting folder: ${setFolderRes.statusText}`);
+    }
+
+    const result = await setFolderRes.json();
+    setResponse(result.result);
   };
 
   return (
@@ -38,6 +47,9 @@ export default function Home() {
             >
               Submit
             </Button>
+          </div>
+          <div>
+            <p>{response}</p>
           </div>
         </div>
       </div>
