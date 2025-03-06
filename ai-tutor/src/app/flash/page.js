@@ -64,7 +64,7 @@ function App() {
               type="text"
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
-              className="p-2 rounded text-black bg-white mb-4"
+              className="p-2 rounded text-black bg-white mb-4 w-xs"
               placeholder="Enter topic..."
             />
             <button onClick={handleSubmit} className="bg-blue-500 px-4 py-2 rounded">Submit</button>
