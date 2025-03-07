@@ -9,22 +9,22 @@ import Image from "next/image";
 const teamMembers = [
   {
     name: "Arya",
-    role: "AI Engineer, CTO, CEO, DIRECTOR,FOUNDER",
+    role: "Server and backend Developer",
     image: "/stalin.jpg",
   },
   {
     name: "Rachit",
-    role: "peon",
+    role: "ML Developer",
     image: "/rachit.png",
   },
   {
     name: "RAJAT",
-    role: "Janitor",
+    role: "WEB Developer",
     image: "/rajat.jpg",
   },
   {
     name: "Vedang",
-    role: "Security guard",
+    role: "UI/UX ",
     image: "/vedang.jpg",
   },
 ];
